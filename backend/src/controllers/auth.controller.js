@@ -1,3 +1,4 @@
+import { sendWelcomeEmail } from "../emails/email-handler.js";
 import { generateToken } from "../lib/utils.js";
 import User from "../modals/user.modal.js";
 import bcrypt from "bcryptjs";
@@ -30,6 +31,11 @@ export const signup = async (req, res) => {
         if(newUser){
             generateToken(newUser._id, res);
             await newUser.save();
+           try {
+             await  sendWelcomeEmail('akshayshanon@gmail.com', "Akshay Kumar")
+           } catch (error) {
+             console.error("Failed to send email!")
+           }
 
             res.status(201).json(newUser);
         }else{
