@@ -1,4 +1,5 @@
 import { sendWelcomeEmail } from "../emails/email-handler.js";
+import cloudinary from "../lib/cloudinary.js";
 import { generateToken } from "../lib/utils.js";
 import User from "../modals/user.modal.js";
 import bcrypt from "bcryptjs";
@@ -78,5 +79,15 @@ export const logout = ( _, res) => {
 }
 
 export const updateProfile = async(req, res) =>{
-
+    try {
+        const {profilePic} = req.body;
+        if(!profilePic) return res.status(400).json({message:"Profile pic is required"})
+        
+        const userId = req.user._id
+        const response = await cloudinary.uploader.upload(profilePic)
+        const updatedUser = await User.findByIdAndUpdate(userId, {profilePic: response.secure_url}, {new:true});
+        res.status(200).json(updatedUser)
+    } catch (error) {
+        
+    }
 }
