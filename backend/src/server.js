@@ -13,9 +13,9 @@ app.use(cookieParser());
 const PORT = process.env.PORT;
 
 app.use("/api/auth", authRoutes);
-app.use("/api/messages", messageRoutes); 
+app.use("/api/messages", messageRoutes);
 
-// Express 5 catch all routes 
+// Express 5 catch all routes   
 app.use((req, res)=>{
     res.send("We couldn't find the route")
 })
