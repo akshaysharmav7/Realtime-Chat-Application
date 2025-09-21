@@ -5,9 +5,11 @@ import messageRoutes from "./routes/message.routes.js";
 import { connectDb } from "./config/db.mongo.js";
 import cookieParser from "cookie-parser";
 dotenv.config();
+import cors from "cors"
 
 const app = express();
 app.use(express.json());
+app.use(cors({origin: process.env.CLIENT_URL, credentials:true}))
 app.use(cookieParser());
 
 const PORT = process.env.PORT;
